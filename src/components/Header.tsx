@@ -1,9 +1,22 @@
 import { useState } from 'react';
-import logo from '../assets/img/logoFRG_definitivo.webp';
-function Header() {
+import logo from '../../public/img/logoFRG_definitivo.webp';
+interface HeaderProps {
+    searchQuery?: string;
+    onSearchChange?: (query: string) => void;
+}
 
+function Header({ searchQuery: controlledSearchQuery, onSearchChange }: HeaderProps) {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [searchQuery, setSearchQuery] = useState('');
+    const [internalSearchQuery, setInternalSearchQuery] = useState('');
+
+    const searchQuery = controlledSearchQuery !== undefined ? controlledSearchQuery : internalSearchQuery;
+    const handleSearchChange = (value: string) => {
+        if (onSearchChange) {
+            onSearchChange(value);
+        } else {
+            setInternalSearchQuery(value);
+        }
+    };
     return (
         <header className="sticky top-0 z-50 w-full bg-zinc-950/90 backdrop-blur-md border-b border-zinc-800/80 text-zinc-200 font-sans shadow-xl">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -41,7 +54,7 @@ function Header() {
                             <input
                                 type="text"
                                 value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
+                                onChange={(e) => handleSearchChange(e.target.value)}
                                 placeholder="Buscar artículos, tags, código..."
                                 className="w-full pl-9 pr-12 py-1.5 bg-zinc-900/90 border border-zinc-700/60 rounded-lg text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 font-mono transition-all duration-200"
                             />
@@ -57,7 +70,7 @@ function Header() {
                             <span>Inicio</span>
                         </a>
                         <a
-                            href="#"
+                            href="#articulos"
                             className="px-3 py-2 rounded-md text-zinc-300 hover:text-cyan-400 hover:bg-zinc-900 transition-colors flex items-center gap-1.5 group"
                         >
                             <span className="text-purple-500/70 group-hover:text-purple-400">#</span>
@@ -107,7 +120,7 @@ function Header() {
                         <input
                             type="text"
                             value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
+                            onChange={(e) => handleSearchChange(e.target.value)}
                             placeholder="Buscar en el blog..."
                             className="w-full pl-9 pr-4 py-1.5 bg-zinc-900 border border-zinc-800 rounded-lg text-sm text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-cyan-500 font-mono"
                         />

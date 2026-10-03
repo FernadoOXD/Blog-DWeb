@@ -1,4 +1,4 @@
-import heroImg from '../assets/img/code_img-hero.png';
+import heroImg from '../../public/img/code_img-hero.png';
 
 function Hero() {
   return (
@@ -44,7 +44,6 @@ function Hero() {
               .
             </p>
 
-            {/* Botones de Acción */}
             <div className="pt-2 flex flex-wrap items-center gap-4 w-full sm:w-auto">
               <a
                 href="#articulos"
